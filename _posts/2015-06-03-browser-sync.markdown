@@ -12,3 +12,9 @@ categories: node-modules
 
 ##install
 `$ npm install -g borser-sync`
+
+
+
+{% highlight javascript %}
+var name = 'sanghyun';
+{% endhighlight %}
