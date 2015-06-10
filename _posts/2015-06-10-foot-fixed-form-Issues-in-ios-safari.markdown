@@ -55,12 +55,14 @@ fixed 속성을 absolute 로 변경하고, 스크롤값이 변경될 때마다 �
 이 문제는 조금 복잡하다.  
 컨텐츠 중간에 fomr 요소가 있고, 하단엔 여전히 고정된 요소가 붙어 있다. 사용자가 문서 중간에 들어가 있는 form 요소를 터치하면 당연히 포커스가 이동되면서, 기기의 기본 UI 가 하단에서 올라오거나 화면중간에 뜨게 된다.  
 이때 기기별로 아래와 같은 증상이 발생한다.
+
 - iOS safari 에서는 fixed 된 요소들의 fixed 속성을 제거한다.(문서상의 원래 위치로 돌린다.)
 - iOS 의 web view(native app 내에 삽입되는)에서 fixed 된 요소들은 webview 영역 상에서 fixed 를 유지해 스크롤시 화면기준으로 top, bottom 을 갱신하지 않는다.(마치 화면기준 absolute 를 띄운듯하다.)
 - android 의 기본브라우저에서는 화면의 resize 가 발생한다. 키보드 위로 fixed 요소가 올라온다.(경우에 따라 form 요소를 가린다.)
 - android 의 chrome 에서도 기본브라우저와 동일한 이슈가 발생한다.
   
 클라이언트의 요청은 이러했다.  
+
 - *키보드, selectbox 등의 UI가 화면을 치고 올라올때, 고정요소가 화면을 가리지 말것.*
 - *iOS web view 영역의 이슈를 해결할것.*
 
@@ -73,6 +75,7 @@ selectbox 가 아닌 text, number 등 요소에 focus 가 되었을때...scroll 
 하지만 blur 이벤트가 발생하지 않는다면 사용자는 스크롤을 해도 하단 고전영역, 상단 고정영역을 볼 수 없을 것이다.(물론 원래 위치에 있기때문에 언젠가는 볼수 있지만 의도되지 않은 UI다.)
 
 **해결**  
+
 - selectbox , input 등 radio 와 checkbox 를 제외한 모든  form 요소에 focus 발생시 고정요소를 숨김
 - blur 이벤트 발생시 fixed 요소를 원래 속성으로 돌림.
 - selectbox 는 change event 발생 후 scroll 시 fixed 요소를 원래 속성으로 돌림.
