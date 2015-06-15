@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "모바일 하단 고정 레이아웃 이슈"
-date:   2013-11-10 10:18:00
-categories: Thriller Comedy Horror
+date:   2015-06-15 10:18:00
+categories: issue
 ---
 
 # 하단 고정 레이아웃
