@@ -40,11 +40,19 @@ categories: mobile-test
     <img src="TEST8.jpg" alt="" width="100%">
     <script>
         var testConsole = 'blocking Script Test',
-            i=0,j=0;
-        for(;i<100000;){
+            obj = document.getElementById('testimg'),
+            tag = document.createElement('p'),
+            i=0,j=0,nextTxt;
+        for(;i<10000;){
+            for(;j<100;){
+                j++;
+            }
+            j=0;
             i++;
         }
-        alert(testConsole + i);
+        nextTxt = document.createTextNode(testConsole+(i+j));
+        tag.appendChild(nextTxt);
+        document.body.insertBefore(tag,obj);
     </script>
     <img src="TEST9.jpg" alt="" width="100%">
     <!-- ##### 생략 ##### -->
@@ -52,4 +60,6 @@ categories: mobile-test
 {% endhighlight %}
   
 일단, 중요한 것은 영향이 있는가 없는가 였다. 
-궁금한 것은 문서 중간에 스크립트 블럭이 있을때, 순차적으로 다운로드를 받다가 스크립트 블럭을 만났을때, blocking 이 발생하는지에 대해서 였고 재미있는 결과가 나왔다.  
+궁금한 것은 문서 중간에 스크립트 블럭이 있을때, 순차적으로 다운로드를 받다가 스크립트 블럭을 만났을때, blocking 이 발생하는지에 대해서 였고 정확한 시점을 보고싶어서 alert 을 이용했다.
+
+
