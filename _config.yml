@@ -8,7 +8,7 @@ logo: false
 paginate: 15
 baseurl: /
 domain_name: 'http://eyekorea.github.io/'
-google_analytics: 'UA-64152133-X'
+google_analytics: 'UA-64152133-1'
 
 # Details for the RSS feed generator
 url:            'http://eyekorea.github.io/'
