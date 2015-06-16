@@ -135,6 +135,9 @@ categories: mobile-test
 {% endhighlight %}
 <img src="/assets/images/postimg/20150615/m_chrome_blocking_insertjQuery_top.png">
 
-jquery 로 인해 122ms 정도 blocking 이 발생했고, 추가로 function call 이 8.210ms 정도 발생했다.
+jquery 로 인해 122ms 정도 blocking 이 발생했고, 추가로 function call 이 8.210ms 정도 발생했다. 재미있는건 Network 쪽이었는데, js 파일을 불러오면서 동시에 이미지를 다운로드 하긴 하는데, 1장만 함께 다운로드 했다.
+<img src="/assets/images/postimg/20150615/m_chrome_blocking_insertjQuery_top__network.png">
+즉, js 파일 하나가 위에 있으니 6장씩 다운로드를 진행하던 것이 2개로 바뀐것이다. 여기에 js 파일을 하나 더 추가하면 어떨까?
+
 
 
