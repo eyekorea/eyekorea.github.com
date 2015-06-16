@@ -48,6 +48,11 @@ post_class: post-template
         <section class="post-content">
             {{content}}
         </section>
+        <!-- facebook comment -->
+        <div
+          class="fb-comments"
+          data-href="{{ site.url }}{{ page.url }}" data-num-posts="4" data-width="706">
+        </div>
 
         {% if page.archive %}
         <section class="archive">
