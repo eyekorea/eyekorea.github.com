@@ -113,11 +113,28 @@ categories: mobile-test
 여기까지의 테스트를 통해 우선 javascript 가 문서 중단에 있을경우 paint 를 전혀 진행하지 않고, safari 는 download 까지 중단 한다는 것을 알 수 있었다. 다만 의문은 문서 하단에 위치했을때...  
 그래서 이번에는 문서 하단으로 스크립트 블럭을 옮겨 보았다.
 <img src="/assets/images/postimg/20150615/m_chrome_blocking_timeline_bottomjs.png">
-음...? 결과가 동일하다. 스크립트에 문제가 있는 것일까..? 스크립트 코드를 수정해 보았다.
+음...? 결과가 동일하다. 스크립트에 문제가 있는 것일까..? 스크립트 코드를 수정해 보았다.  
 
+우선 전역에서 실행되는 스크립트 코드를 함수로 변경후 실행시키지 않았다. 결과는 아래와 같다.
+<img src="/assets/images/postimg/20150615/m_chrome_blociking_fnc.png">
+분석해 보자면, 바로 실행을 시켰을때 약 4000ms 정도 blocking 되던 부분이 1.546ms 정도로 줄었다. 거의 티도 안난다고 봐야 겠다.  
+함수를 바로 실행시키면 어떨까..? 아쉽게도 결과는 동일했다. 기존과 동일하게 3000~4000ms 정도로 blocking 이 발생했고, 그동안 브라우저는 paint 하지 않았다.  
+그럼 document ready 되었을때는 어떨까...? 아... 일단 테스트 특성상 jquery 자체를 load 하지 않았는데, 고민에 빠졌다. jquery 를 추가로 로드할까...? 아니면...만들까...하다가...  
+여기서 jquery 가 상단, 하단 에 각각 삽입되었을때의 테스트를 함께 진행하면서....다시 정리를 해보기로 했다.
 
+- - -
+##jquery load
+우선 상단에서 로드 해 보았다.
 
+{% highlight html %}
+<head>
+    <!-- #### 코드 생략 #### -->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+{% endhighlight %}
+<img src="/assets/images/postimg/20150615/m_chrome_blocking_insertjQuery_top.png">
 
-
+jquery 로 인해 122ms 정도 blocking 이 발생했고, 추가로 function call 이 8.210ms 정도 발생했다.
 
 
