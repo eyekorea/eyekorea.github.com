@@ -102,7 +102,7 @@ description : "모바일 브라우저의 정적 구성요소 다운로드와 jav
 그럼 iOS safari 에서는 어떻게 처리 하고 있을까..?
 아래는 그 결과이다.  
 - - -
-먼저 safari 개발자 툴이 자꾸 비정상 종료 되어 roof 수를 190000 으로 줄이고 테스트를 진행하였다.
+먼저 safari 개발자 툴이 자꾸 비정상 종료 되어 loof 수를 190000 으로 줄이고 테스트를 진행하였다.
 <img src="/assets/images/postimg/20150615/m_safari_download_dbg.png">
 사파리 브라우저 역시 자바스크립트 블럭이 없을경우 6개씩 원할한 다운로드 및 paint 를 진행한다.
   
