@@ -3,6 +3,7 @@ layout: post
 title:  "모바일 하단 고정 레이아웃 이슈"
 date:   2015-06-15 10:18:00
 categories: issue
+description : "안드로이드 기본브라우저의 selectbox 에서 change 가 일어나지 않은 상태로 스크롤 시 fiexd 요소를 원래 속성으로 돌릴 장치가 딱히 없다. 사용자가 다른 요소를 탭 하거나 혹은 body영역을 한번 더 탭해 주기를 바랄뿐"
 ---
 
 # 하단 고정 레이아웃
