@@ -11,10 +11,33 @@
     <meta name="MobileOptimized" content="320" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- 페이스북 -->
+    <meta property="og:title"           content="{{ page.title }}"/>
+    <meta property="og:site_name"       content="{{ site.name }}"/>
+    <meta property="og:type"            content="webPublisher, frontEndDeveloper"/>
+    <meta property="og:url"             content="{{ site.domain_name }}"/>
+    <meta property="og:image"           content="http://eyekorea.github.io/assets/images/profile.png"/>
+    <meta property="og:description"     content="{{ page.description }}"/>
+     
+    <!-- 트위터 -->
+    <meta name="twitter:card"           content="webPublisher, frontEndDeveloper">
+    <meta name="twitter:title"          content="{{ page.title }}">
+    <meta name="twitter:site"           content="{{ site.name }}">
+    <meta name="twitter:creator"        content="정상현">
+    <meta name="twitter:image"          content="http://eyekorea.github.io/assets/images/profile.png">
+    <meta name="twitter:description"    content="{{ page.description }}">
+     
+    <!-- Google -->
+    <meta itemprop="name" content="{{ page.title }}">
+    <meta itemprop="description" content="{{ page.description }}">
+    <meta itemprop="image" content="http://eyekorea.github.io/assets/images/profile.png">
+
     <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
     <!-- Customisation  -->
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+
+
 
 </head>
 <body class="{% if page.post_class %}{{page.post_class}}{% else %}home-template{% endif %}">

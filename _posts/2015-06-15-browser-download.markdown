@@ -3,6 +3,7 @@ layout: post
 title:  "모바일 브라우저의 정적구성요소 다운로드 테스트"
 date:   2015-06-15 00:00:00
 categories: mobile-test
+description : "모바일 브라우저의 정적 구성요소 다운로드와 javascript blocking"
 ---
 
 ##호기심에서 시작.
