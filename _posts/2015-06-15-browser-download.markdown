@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "모바일 브라우저의 동시 다운로드"
+title:  "모바일 브라우저의 정적구성요소 다운로드 테스트"
 date:   2015-06-15 00:00:00
 categories: mobile-test
 ---
@@ -10,7 +10,7 @@ categories: mobile-test
 - 중간에 js 파일이 들어가 있다면 과연 [javascript blocking](https://developers.google.com/speed/docs/insights/BlockingJS) 이 정말 발생할까? 그것이 미치는 영향은 어느정도 일까?
 
 ##Test 방법
-1. 1.29Mb 용량의 이미지를 38개 준비.
+1. 500Kb 용량의 이미지를 10개 준비.
 1. html 파일에서 해당 이미지를 로드하도록 마크업.
 1. mobile 브라우저에서 개발자 도구를 열어 network 항목을 체크
 1. 상, 중, 하단에 js 파일을 삽입하여 network 항목을 체크
@@ -138,6 +138,45 @@ categories: mobile-test
 jquery 로 인해 122ms 정도 blocking 이 발생했고, 추가로 function call 이 8.210ms 정도 발생했다. 재미있는건 Network 쪽이었는데, js 파일을 불러오면서 동시에 이미지를 다운로드 하긴 하는데, 1장만 함께 다운로드 했다.
 <img src="/assets/images/postimg/20150615/m_chrome_blocking_insertjQuery_top__network.png">
 즉, js 파일 하나가 위에 있으니 6장씩 다운로드를 진행하던 것이 2개로 바뀐것이다. 여기에 js 파일을 하나 더 추가하면 어떨까?
+<img src="/assets/images/postimg/20150615/m_chrome_blocking_insertjQuery_two_js.png">
+js 두장을 함께 받으며, 이미지 한장을 함께 다운로드 받았다. 여기서 의문이 생겼다...그럼 js 파일은 몇개까지 동시에 다운로드 할까..? 이부분은 다음번에 디테일하게 포스팅 하도록 하고, 문서 하단으로 js 로드를 옮겨보기로 했다.
+<img src="/assets/images/postimg/20150615/m_chrome_blocking_insertjQuery_bottom_network.png">
+js파일의 로드를 하단으로 이동하니 이미지 6장을 먼저 다운로드 한다. 이것은 굉장히 중요한 부분인데, js를 로드할때 상단에 있을때보다 하단에 있을때 좀더 효과적으로 다운로드를 진행 할 수 있다는 의미이다. 우리는 보통 마크업을 진행할때 상단에서 부터 순서대로 마크업하고, 이때 삽입되는 이미지들은 상단 부터 순서대로 로드 하게 된다(테스트상 처음 6개의 이미지는 순서대로 받아진다).  
+사용자에게 보여질 필요한 이미지를 먼저 로드해서 화면에 노출하여 준다는 것은 체감상 굉장한 효과를 주게된다. 다만 재미있는 것은 문서 최 하단에 두었음에도, 6개의 이미지를 로드한 이후에 js 파일을 먼저 로드하는 것인데, 그럼, js 파일을 이해할때까지 브라우저는 paint 를 하지 않을까?
 
+<img src="/assets/images/postimg/20150615/m_chrome_blocking_insertjQuery_bottom_timeline.png">
+문서 하단에 js 파일을 위치 하게 되니, js 파일을 로드하고 이해하기 전에 이미 다운받은 이미지에 대한 paint 를 시작했다. 화면에 노출시키고 있다는 것이다. 이로써 js 파일이 상단에 있을때와 하단에 있을때의 차이와 효과는 분명해 졌다.(ySlow 와 pageSpeed 항목이 거짓은 아닌 것이다.)  
+이제 document.ready 테스트를 진행해 보기로 했다.
 
+##document Ready
+테스트는 간단하다. 그냥 아래 코드에서 함수를 실행하면 되는데..
 
+{% highlight javascript %}
+$(function(){
+    testFnc();
+})
+{% endhighlight %}
+<img src="/assets/images/postimg/20150615/m_chrome_blocking_ready_fnc.png">
+
+처음 전역에서 바로 함수를 실행했을때와는 달리 paint를 진행하는 중간에 함수를 실행한다.  
+차이는 스크립트가 실행되는 동안 paint 를 시작조차 하지 않아 멈춰 있던 화면이 이제는 화면을 그리는 중간에 함수를 실행해서 사용자 체감 속도가 증가한 샘이다.  
+
+##정리
+- 모바일 브라우저역시 6개씩 정적 구성요소를 다운로드 했다.
+- iOS 의 safari 는 inline script block 을 만났을때 정적구성요소를 다운로드 하지 않고 대기한다.
+- android 의 chrome 은 inline script block 을 만났을때 정적구성요소를 다운로드 받지만 paint 하지 않는다.
+- inline script block 이 실행될때 브라우저는 이전에 로드했던 이미지조차 paint 하지 않고 스크립트를 먼저 실행한다.
+- js 파일이 head 에서 src 로 로드할때 브라우저는 1개의 정적 구성요소를 추가로 다운로드 받는다.
+- js 파일이 문서 하단에 있을때, 브라우저는 상위에 있는 6개의 정적 구성요소를 로드한뒤 하단의 스크립트 파일을 먼저 로드한다.
+- 문서 하단에서 바로 실행하는 것 보다 문서가 준비되고 load 및 paint 가 진행되는 시점(document.ready)에 함수를 실행하는 것이 더 효과 적이다.
+
+##차후 예정 테스트
+- 브라우저는 js 파일을 동시에 몇개까지 로드할까?
+- css 파일을 로드하는동안 css 내에서 사용되는 background 이미지와 html 문서상의 이미지중 어떤것을 먼저 로드할까?
+
+##마치며
+이미 위 내용들중 큰 틀은 ySlow 나 pageSpeed 의 항목에 모두 포함되어 있다. 단지 css는 상단에, js 는 하단에...와 같이 답만 나와 있을뿐, 어떻게 처리하고 어떤 일이 발생해서 그렇게 해야 하는지. 반듯이 모든 상황에서 그것이 맞는지 의문이 들어서 테스트를 진행했다.  
+이 포스팅을 위해 대략 2~3일 정도 삽질을 무한 반복 한듯 하다.  
+이제 이것을 어떻게 받아들일지는 이 글을 읽어준 당신의 몫이다.
+
+포스팅을 위해 만든 테스트 파일은 [이곳](https://github.com/eyekorea/browser.download.test.git)에서 받아 볼 수 있다.
