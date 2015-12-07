@@ -75,7 +75,7 @@ console.log( Math.pow(2,10) );
 // output : 1024
 
 console.log(Math.pow(2,3));
-// output : 16
+// output : 8
 {% endhighlight %}
 
 # Math.sqrt
