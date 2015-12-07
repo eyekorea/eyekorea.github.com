@@ -1,0 +1,91 @@
+---
+layout: post
+title:  "Math.sin, Math.cos"
+date:   2015-11-27 18:00:00
+categories: study
+description : "javascript 개발시 sin, cos 사용"
+---
+
+# Math.PI
+- 원주율 : 3.141592653589793 (무리수)
+- 원의 둘레
+	- 반지름 : r
+	- 둘레 = r\*2\*π
+
+
+#Math.sin, Math.cos
+## [radian](https://ko.wikipedia.org/wiki/%EB%9D%BC%EB%94%94%EC%95%88)변환
+
+- Math.sin(), Math.cos() 을 사용하기 위해서는 인자로 radian 값을 넘겨야 함. 
+- 통상 사람에게는 `각도(°)` 가 친숙하므로 각도(deg)를 라디안(rad)으로 변경할 경우 아래와 같은 방법을 사용할 수 있음.
+- 1° = π/180
+- rad = deg * (π/180)
+
+{% highlight js %}
+function toRadian(deg){
+	return deg * (Math.PI/180);
+}
+{% endhighlight %}
+
+- 위의 `toRadian` 을 이용해 radian 값을 리턴받아 `Math.sin`, `Math.cos` 에 넘기면 각각 sin, cos 값을 리턴 받을 수 있다.
+- 예를 들어 우리는 web browser 의 view port 기준 X : 200, Y : 200 을 중심으로 지름이 100px 인 가상의 원에서 30도 위치에 있는 점을 찍을 수 있다. 단 이때 sin 과 cos 을 각각 어느쪽에 대입하느냐에 따라 0 도의 기준이 달라짐에 주의 해야 한다. 통상 cos 값을 left 에, sin 값을 top 값에 대입했을때 0도는 원의 중심을 기준으로 오른쪽 에 해당 된다.
+
+{% highlight js %}
+
+function toRadian(deg){
+  return deg * (Math.PI/180);
+}
+
+// p 중심점
+// r radian
+// deg 반지름
+// color
+function _createElement(p, r,deg,col){
+  var htm = $('<div>');
+  htm.css({
+    'position' : 'absolute',
+    'width' : '2px',
+    'height' : '2px',
+    'background' : col,
+    'left' : p + Math.cos(toRadian(deg)) * r,
+    'top' : p + Math.sin(toRadian(deg)) * r
+  });
+  $('body').append(htm);
+}
+$(function(){
+  var i=1, r = 90,p= 200;
+  for(i;i < r;i++){
+    _createElement(p, 200,i,'#000');
+  }
+  _createElement(p, 190,0,'red');
+  _createElement(p, 190,45,'red');
+});
+
+{% endhighlight %}
+
+- 위 코드는 0 ~ 90 도까지의 지름을 그리고, 0도 와 45도위치에 붉은 점을 찍는다.
+- 코드는 [여기](http://jsbin.com/jocosotazi/edit?html,js,output) 서 확인 할 수 있다.
+
+# Math.pow
+- 두개의 인자를 필요로 하며, 실수(double) 을 필요로 한다.
+- 제곱을 반환한다.
+
+{% highlight js %}
+console.log( Math.pow(2,10) );
+// output : 1024
+
+console.log(Math.pow(2,3));
+// output : 16
+{% endhighlight %}
+
+# Math.sqrt
+- 인자로 받은 수의 제곱근을 반환함.
+{% highlight js %}
+console.log(Math.sqrt(9))
+// output : 3
+{% endhighlight %}
+
+
+# 마치며
+- Math.pow 와 Math.sqrt 매서드는 사실 사용할 일이 많이 있으나, 몰라서 만들어 쓰는 경우가 많기 때문에 추가해 보았다. 사실 sin, cos 은 특유의 파형을 만들어 내기 때문에 여러가지 효과들에서 더 폭넓게 사용이 가능하다.
+- 삼각함수 라고 다가가면 매우 복잡해 보이므로, 실제로 자주 사용하게 되는 예를 들어 쉽게 정리 하고자 했다. 열심히 공부하고 나서도 1~2개월 안써먹으면 금방 까먹게 되므로.
