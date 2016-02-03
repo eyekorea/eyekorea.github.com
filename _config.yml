@@ -2,8 +2,8 @@ name: 안녕하세요. 정상현 입니다.
 description: web publisher / front end developer
 meta_description: "web publisher, front end developer  정상현의 개인 블로그 입니다."
 
-markdown: redcarpet
-highlighter: pygments
+markdown: kramdown
+highlighter: rouge
 logo: false
 paginate: 15
 baseurl: /
@@ -13,3 +13,7 @@ facebookComment : '864445083636149'
 # Details for the RSS feed generator
 url:            'http://eyekorea.github.io'
 author:         'eyekorea'
+
+gems:
+  - jekyll-feed
+  - jekyll-paginate
